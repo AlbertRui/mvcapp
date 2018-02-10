@@ -17,13 +17,14 @@ public class JdbcUtils {
     /**
      * 静态的只被初始化一次
      */
-    private static DataSource dataSource = null;
-    
+    private static DataSource dataSource;
+
     /**
      * 静态代码块初始化数据源,数据源只能被初始化一次
      */
     static {
-	dataSource = new ComboPooledDataSource("mvcapp");
+        dataSource = null;
+        dataSource = new ComboPooledDataSource("mvcapp");
     }
     
     /**
@@ -38,11 +39,11 @@ public class JdbcUtils {
 	    e.printStackTrace();
 	}
     }
-    
+
     /**
      * 返回数据源的一个Connection对象
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static Connection getConnection() throws SQLException {
 	return dataSource.getConnection();

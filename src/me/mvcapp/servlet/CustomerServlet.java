@@ -54,7 +54,6 @@ public class CustomerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	String methodName = request.getServletPath();
-	System.out.println(methodName);
 	methodName = methodName.substring(5, methodName.length() - 3);
 	try {
 	    //利用反射获取methodName对应的方法
@@ -100,28 +99,42 @@ public class CustomerServlet extends HttpServlet {
     @SuppressWarnings("unused")
     private void add(HttpServletRequest request, HttpServletResponse response) {
 	//1.获取表单参数 name, address, phone
-	
+	String name = request.getParameter("name");
+	String address = request.getParameter("address");
+	String phone = request.getParameter("phone");
 	//2.检验name是否已经被占用:
 	
 	//2.1调用customerDAO的getCountWithName(String name)方法,检查name在数据库中是否已经存在
-	
+	long count = customerDAO.getCountWithName(name);
 	//2.2若返回值大于零，则响应 newCustomer.jsp页面
 	//通过转发的方式响应newCustomer.jsp
-	
-	//2.2.1要求在newCustomer.js页面显示一个消息：用户名name已经被占用，请重新选择！！！
-	//在request中放入一个属性message：用户名已经被占用,请重新选择！
-	//在页面上通过request.getAttribute("message")的方式显示
-	
-	//2.2.2newCustomer.jsp的表单值可以回显
-	//通过value="<%= request.getParameter("name") == null ? "" : request.getParameter("name") %>"来进行回显
-	
-	//2.2.3结束方法
-	
+	if (count > 0) {
+	    //2.2.1要求在newCustomer.js页面显示一个消息：用户名name已经被占用，请重新选择！！！
+	    //在request中放入一个属性message：用户名已经被占用,请重新选择！
+	    //在页面上通过request.getAttribute("message")的方式显示
+	    request.setAttribute("message", "用户名" + name + "已经被占用,请重新选择！");
+	    //2.2.2newCustomer.jsp的表单值可以回显
+	    //通过value="<%= request.getParameter("name") == null ? "" : request.getParameter("name") %>"来进行回显
+	    //2.2.3结束方法
+	    try {
+		request.getRequestDispatcher("newCustomer.jsp").forward(request, response);
+	    } catch (ServletException e) {
+		e.printStackTrace();
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	    return;
+	}
 	//3.若验证通过，则把表单参数封装为一个Customer对象？customer
-	
+	Customer customer = new Customer(name, address, phone);
 	//4.。调用CustomerDAO的save(Customer customer)方法执行保存操作
-	
-	//5。重定向到success.jsp页面
+	customerDAO.save(customer);
+	//5。重定向到success.jsp页面,使用重定向可以避免表单的重复提交问题
+	try {
+	    response.sendRedirect("success.jsp");
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
     }
 
 }

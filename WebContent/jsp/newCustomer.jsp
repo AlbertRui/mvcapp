@@ -7,6 +7,16 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<%
+		Object message = request.getAttribute("message");
+		if (message != null) {
+	%>
+			<br>
+			<font color="red"><%= message %></font>
+			<br><br>
+	<%
+		}
+	%>
 
 	<form action="add.do" method="post">
 		<table>
@@ -16,11 +26,11 @@
 			</tr>
 			<tr>
 				<td>address:</td>
-				<td><input type="text" name="address"/></td>
+				<td><input type="text" name="address" value="<%= request.getParameter("address") == null ? "" : request.getParameter("address") %>"/></td>
 			</tr>
 			<tr>
 				<td>phone:</td>
-				<td><input type="text" name="phone"/></td>
+				<td><input type="text" name="phone" value="<%= request.getParameter("phone") == null ? "" : request.getParameter("phone") %>"/></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="Submit"/></td>
