@@ -11,8 +11,8 @@ public class JdbcUtilsTest {
 
     @Test
     public void testGetConnection() throws SQLException {
-	Connection connection = JdbcUtils.getConnection();
-	System.out.println(connection);
+        Connection connection = JdbcUtils.getConnection();
+        System.out.println(connection);
     }
 
 }
