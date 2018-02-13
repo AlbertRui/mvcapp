@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <c3p0-config>
 
-    <named-config name="mvcapp">
+    <named-config name="c3p0">
 
         <!-- 指定连接数据源的基本属性 -->
         <property name="user">root</property>

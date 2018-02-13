@@ -23,8 +23,7 @@ public class JdbcUtils {
       静态代码块初始化数据源,数据源只能被初始化一次
      */
     static {
-        dataSource = null;
-        dataSource = new ComboPooledDataSource("mvcapp");
+        dataSource = new ComboPooledDataSource("c3p0");
     }
 
     /**

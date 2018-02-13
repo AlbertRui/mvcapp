@@ -41,7 +41,7 @@ public class CustomerDAOJdbcImpl extends DAO<Customer> implements CustomerDAO {
 
     @Override
     public long getCountWithName(String name) {
-        String sql = "SELECT count(id) FROM customers WHERE name = ? WHERE id = ?";
+        String sql = "SELECT count(id) FROM customers WHERE name = ?";
         return getForValue(sql, name);
     }
 
