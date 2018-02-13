@@ -1,8 +1,8 @@
 package me.mvcapp.dao;
 
-import java.util.List;
-
 import me.mvcapp.domain.Customer;
+
+import java.util.List;
 
 public interface CustomerDAO {
 
@@ -15,6 +15,8 @@ public interface CustomerDAO {
     Customer get(Integer id);
 
     void delete(Integer id);
+
+    void update(Customer customer);
 
     /**
      * 返回和name相等的记录数
