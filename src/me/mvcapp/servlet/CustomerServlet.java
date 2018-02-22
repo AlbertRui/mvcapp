@@ -2,7 +2,7 @@ package me.mvcapp.servlet;
 
 import me.mvcapp.dao.CriteriaCustomer;
 import me.mvcapp.dao.CustomerDAO;
-import me.mvcapp.dao.impl.CustomerDAOJdbcImpl;
+import me.mvcapp.dao.factory.CustomerDAOFactory;
 import me.mvcapp.domain.Customer;
 
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ import java.util.List;
 public class CustomerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private CustomerDAO customerDAO = new CustomerDAOJdbcImpl();
+    private CustomerDAO customerDAO = CustomerDAOFactory.getInstance().getCustomerDAO();
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -59,13 +59,13 @@ public class CustomerServlet extends HttpServlet {
             //利用反射调用方法
             method.invoke(this, request, response);
         } catch (Exception e) {
-            response.sendRedirect("error.jsp");
+            response.sendRedirect("/jsp/error.jsp");
         }
     }
 
     @SuppressWarnings("unused")
     private void  edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String forwardPath = "error.jsp";
+        String forwardPath = "/jsp/error.jsp";
 
         //1.获取请求参数id
         String idStr = request.getParameter("id");
@@ -75,7 +75,7 @@ public class CustomerServlet extends HttpServlet {
         try {
             Customer customer = customerDAO.get(Integer.parseInt(idStr));
             if (customer != null) {
-                forwardPath = "updateCustomer.jsp";
+                forwardPath = "/jsp/updateCustomer.jsp";
                 //3.将customer放入到request中
                 request.setAttribute("customer", customer);
             }
@@ -109,7 +109,7 @@ public class CustomerServlet extends HttpServlet {
                 //通过value="<%= request.getParameter("name") == null ? "" : request.getParameter("name") %>"来进行回显
                 //address,phone显示表单提交的新的值，而name显示oldName，而不是新提交的name
                 //2.2.3结束方法
-                request.getRequestDispatcher("updateCustomer.jsp").forward(request, response);
+                request.getRequestDispatcher("/jsp/updateCustomer.jsp").forward(request, response);
                 return;
             }
         }
@@ -150,7 +150,7 @@ public class CustomerServlet extends HttpServlet {
         //2.把Customer的集合放入到request中
         request.setAttribute("customers", customers);
         //3.转发页面倒index.jsp(不能使用重定向)
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("/jsp/index.jsp").forward(request, response);
     }
 
     @SuppressWarnings("unused")
@@ -174,7 +174,7 @@ public class CustomerServlet extends HttpServlet {
             //通过value="<%= request.getParameter("name") == null ? "" : request.getParameter("name") %>"来进行回显
             //2.2.3结束方法
             try {
-                request.getRequestDispatcher("newCustomer.jsp").forward(request, response);
+                request.getRequestDispatcher("/jsp/newCustomer.jsp").forward(request, response);
             } catch (ServletException | IOException e) {
                 e.printStackTrace();
             }
@@ -186,7 +186,7 @@ public class CustomerServlet extends HttpServlet {
         customerDAO.save(customer);
         //5。重定向到success.jsp页面,使用重定向可以避免表单的重复提交问题
         try {
-            response.sendRedirect("success.jsp");
+            response.sendRedirect("/jsp/success.jsp");
         } catch (IOException e) {
             e.printStackTrace();
         }
