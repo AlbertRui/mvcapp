@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,18 +7,25 @@
     <title>Insert title here</title>
 </head>
 <body>
-<c:if test="${requestScope.message != null}">
-    <br>
-    <span style="color: red; ">${requestScope.message}</span>
-    <br><br>
-</c:if>
+<%
+    Object message = request.getAttribute("message");
+    if (message != null) {
+%>
+<br>
+<span style="color: red; "><%= message %></span>
+<br><br>
+<%
+    }
+%>
+
 <form action="add.do" method="post">
     <table>
         <tr>
             <td>name:</td>
             <td>
                 <label>
-                    <input type="text" name="name" value="${param.name}"/>
+                    <input type="text" name="name"
+                           value="<%= request.getParameter(" name") == null ? "" : request.getParameter("name") %>"/>
                 </label>
             </td>
         </tr>
@@ -26,7 +33,8 @@
             <td>address:</td>
             <td>
                 <label>
-                    <input type="text" name="address" value="${param.address}"/>
+                    <input type="text" name="address"
+                           value="<%= request.getParameter(" address") == null ? "" : request.getParameter("address") %>"/>
                 </label>
             </td>
         </tr>
@@ -34,7 +42,8 @@
             <td>phone:</td>
             <td>
                 <label>
-                    <input type="text" name="phone" value="${param.phone}"/>
+                    <input type="text" name="phone"
+                           value="<%= request.getParameter(" phone") == null ? "" : request.getParameter("phone") %>"/>
                 </label>
             </td>
         </tr>
@@ -43,5 +52,6 @@
         </tr>
     </table>
 </form>
+
 </body>
 </html>

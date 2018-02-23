@@ -186,7 +186,7 @@ public class CustomerServlet extends HttpServlet {
         customerDAO.save(customer);
         //5。重定向到success.jsp页面,使用重定向可以避免表单的重复提交问题
         try {
-            response.sendRedirect("/jsp/success.jsp");
+            response.sendRedirect("success.jsp");
         } catch (IOException e) {
             e.printStackTrace();
         }
