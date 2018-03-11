@@ -68,19 +68,21 @@
     * 只能自上向下依赖，而不能自下向上依赖
 ### 案例实现过程
 * 建数据表
+
 ![image](/images/002.png)
 
 ```sql
-Create table customers(
-	id int primary key auto_increment,
-	name varchar(30) not null unique,
-	address varchar(30),
-	phone varchar(30)
+CREATE TABLE customers (
+  id      INT PRIMARY KEY AUTO_INCREMENT,
+  name    VARCHAR(30) NOT NULL UNIQUE,
+  address VARCHAR(30),
+  phone   VARCHAR(30)
 );
 ```
 * 为 name 字段添加唯一约束：
 ```sql
-alter table customers add constraint name_uk unique(name);
+ALTER TABLE customers
+  ADD CONSTRAINT name_uk UNIQUE (name);
 ```
 * 加入 C3P0 数据源
     * C3p0配置文件：[c3p0-config.xml](/src/c3p0-config.xml)
@@ -150,7 +152,7 @@ doPost(request, response) --- request.getRequestDispatcher(path).forward(requ
 #### 修改：
 * 先显示（SELECT 操作）修改的页面，再进行修改（update）
 * 显示修改页面
-    * Update 的超链接：<a href="edit.do?id=<%= customer.getId() %>">UPDATE</a>
+    * Update 的超链接：`<a href="edit.do?id=<%= customer.getId() %>">UPDATE</a>`
     * edit 方法： 参考注释
     * JSP 页面：
         * 获取请求域中的 Customer 对象，调用对应的字段的 get 方法来显示值。
